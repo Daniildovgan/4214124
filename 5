@@ -1,0 +1,64 @@
+#include <stdio.h>
+
+struct Car {
+    float length;
+    float groundClearance;
+    float engineCapacity;
+    int enginePower;
+    float wheelDiameter;
+    char color[20];
+    char transmissionType[20];
+};
+
+void setCarValues(struct Car *car, float length, float clearance, float engineCap, int enginePower,
+                  float wheelDiameter, const char *color, const char *transmission) {
+    car->length = length;
+    car->groundClearance = clearance;
+    car->engineCapacity = engineCap;
+    car->enginePower = enginePower;
+    car->wheelDiameter = wheelDiameter;
+    snprintf(car->color, sizeof(car->color), "%s", color);
+    snprintf(car->transmissionType, sizeof(car->transmissionType), "%s", transmission);
+}
+
+void displayCar(const struct Car *car) {
+    printf("Довжина: %.2f м\n", car->length);
+    printf("Кліренс: %.2f м\n", car->groundClearance);
+    printf("Об'єм двигуна: %.2f л\n", car->engineCapacity);
+    printf("Потужність двигуна: %d к.с.\n", car->enginePower);
+    printf("Діаметр коліс: %.2f дюймів\n", car->wheelDiameter);
+    printf("Колір: %s\n", car->color);
+    printf("Тип коробки передач: %s\n", car->transmissionType);
+}
+
+int findCarByColor(const struct Car *cars, int numCars, const char *color) {
+    for (int i = 0; i < numCars; ++i) {
+        if (strcmp(cars[i].color, color) == 0) {
+            return i;
+        }
+    }
+    return -1;  
+}
+
+int main() {
+    struct Car car1, car2;
+    
+    setCarValues(&car1, 4.5, 0.15, 2.0, 150, 18.0, "Червоний", "Автоматична");
+    setCarValues(&car2, 4.2, 0.12, 1.8, 130, 17.0, "Синій", "Механічна");
+
+    printf("Характеристики автомобіля 1:\n");
+    displayCar(&car1);
+    
+    printf("\nХарактеристики автомобіля 2:\n");
+    displayCar(&car2);
+    
+    const char *searchColor = "Синій";
+    int index = findCarByColor(&car1, 1, searchColor);
+    if (index != -1) {
+        printf("\nЗнайдено автомобіль з коліром '%s' (автомобіль %d)\n", searchColor, index + 1);
+    } else {
+        printf("\nНе знайдено автомобілів з коліром '%s'\n", searchColor);
+    }
+    
+    return 0;
+}
