@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Fraction {
+    int numerator;
+    int denominator;
+};
+
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+void reduceFraction(struct Fraction *frac) {
+    int common_divisor = gcd(abs(frac->numerator), abs(frac->denominator));
+    frac->numerator /= common_divisor;
+    frac->denominator /= common_divisor;
+    
+    if (frac->denominator < 0) {
+        frac->numerator = -frac->numerator;
+        frac->denominator = -frac->denominator;
+    }
+}
+
+struct Fraction addFractions(const struct Fraction *frac1, const struct Fraction *frac2) {
+    struct Fraction result;
+    result.numerator = frac1->numerator * frac2->denominator + frac2->numerator * frac1->denominator;
+    result.denominator = frac1->denominator * frac2->denominator;
+    reduceFraction(&result);
+    return result;
+}
+
+struct Fraction subtractFractions(const struct Fraction *frac1, const struct Fraction *frac2) {
+    struct Fraction result;
+    result.numerator = frac1->numerator * frac2->denominator - frac2->numerator * frac1->denominator;
+    result.denominator = frac1->denominator * frac2->denominator;
+    reduceFraction(&result);
+    return result;
+}
+
+struct Fraction multiplyFractions(const struct Fraction *frac1, const struct Fraction *frac2) {
+    struct Fraction result;
+    result.numerator = frac1->numerator * frac2->numerator;
+    result.denominator = frac1->denominator * frac2->denominator;
+    reduceFraction(&result);
+    return result;
+}
+
+struct Fraction divideFractions(const struct Fraction *frac1, const struct Fraction *frac2) {
+    struct Fraction result;
+    result.numerator = frac1->numerator * frac2->denominator;
+    result.denominator = frac1->denominator * frac2->numerator;
+    reduceFraction(&result);
+    return result;
+}
+
+void printFraction(const struct Fraction *frac) {
+    printf("%d / %d\n", frac->numerator, frac->denominator);
+}
+
+int main() {
+    struct Fraction frac1 = {2, 3};
+    struct Fraction frac2 = {3, 4};
+
+    struct Fraction sum = addFractions(&frac1, &frac2);
+    printf("Сума: ");
+    printFraction(&sum);
+
+    struct Fraction diff = subtractFractions(&frac1, &frac2);
+    printf("Різниця: ");
+    printFraction(&diff);
+
+    struct Fraction product = multiplyFractions(&frac1, &frac2);
+    printf("Множення: ");
+    printFraction(&product);
+
+    struct Fraction quotient = divideFractions(&frac1, &frac2);
+    printf("Ділення: ");
+    printFraction(&quotient);
+
+    return 0;
+}
