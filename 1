@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+struct Rectangle {
+    int x;
+    int y;
+    int width;
+    int height;
+};
+
+void moveRectangle(struct Rectangle *rect, int dx, int dy) {
+    rect->x += dx;
+    rect->y += dy;
+}
+
+void resizeRectangle(struct Rectangle *rect, int newWidth, int newHeight) {
+    rect->width = newWidth;
+    rect->height = newHeight;
+}
+
+void printRectangle(const struct Rectangle *rect) {
+    printf("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
+}
+
+int main() {
+    struct Rectangle rect = {10, 10, 50, 30};
+
+    printRectangle(&rect);
+
+    moveRectangle(&rect, 5, -5);
+    printRectangle(&rect);
+
+    resizeRectangle(&rect, 70, 40);
+    printRectangle(&rect);
+
+    return 0;
+}
