@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+struct Complex {
+    double real;
+    double imag;
+};
+
+struct Complex addComplex(struct Complex a, struct Complex b) {
+    struct Complex result;
+    result.real = a.real + b.real;
+    result.imag = a.imag + b.imag;
+    return result;
+}
+
+struct Complex subtractComplex(struct Complex a, struct Complex b) {
+    struct Complex result;
+    result.real = a.real - b.real;
+    result.imag = a.imag - b.imag;
+    return result;
+}
+
+struct Complex multiplyComplex(struct Complex a, struct Complex b) {
+    struct Complex result;
+    result.real = a.real * b.real - a.imag * b.imag;
+    result.imag = a.real * b.imag + a.imag * b.real;
+    return result;
+}
+
+struct Complex divideComplex(struct Complex a, struct Complex b) {
+    struct Complex result;
+    double denominator = b.real * b.real + b.imag * b.imag;
+    result.real = (a.real * b.real + a.imag * b.imag) / denominator;
+    result.imag = (a.imag * b.real - a.real * b.imag) / denominator;
+    return result;
+}
+
+void printComplex(struct Complex c) {
+    printf("%.2f + %.2fi\n", c.real, c.imag);
+}
+
+int main() {
+    struct Complex c1 = {1.0, 2.0};
+    struct Complex c2 = {3.0, 4.0};
+
+    struct Complex sum = addComplex(c1, c2);
+    printf("Сума: ");
+    printComplex(sum);
+
+    struct Complex diff = subtractComplex(c1, c2);
+    printf("Різниця: ");
+    printComplex(diff);
+
+    struct Complex product = multiplyComplex(c1, c2);
+    printf("Множення: ");
+    printComplex(product);
+
+    struct Complex quotient = divideComplex(c1, c2);
+    printf("Ділення: ");
+    printComplex(quotient);
+
+    return 0;
+}
